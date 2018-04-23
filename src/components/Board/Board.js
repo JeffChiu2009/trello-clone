@@ -2,14 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/";
 
+import List from "../List/List";
+
 class Board extends Component {
-	componentDidMount() {
-		this.props.onBoardsFetch(this.props.token, this.props.userId);		
-	}
 	handleAddList = event => {
 		event.preventDefault();
-		const pendingList = { title: event.target.listTitle.value };	
+		const pendingList = { title: event.target.listTitle.value, text: [] };	
 		this.props.onAddList(pendingList, this.props.token, this.props.match.params.b_id);
+	};
+	handleAddListItem = (event, listId) => {
+		event.preventDefault();
+		const pendingListItem = { text: event.target.text.value };
+		this.props.onAddListItem(pendingListItem, listId, this.props.token, this.props.match.params.b_id);
+		event.target.reset();
 	};
 
 	render() {
@@ -17,14 +22,14 @@ class Board extends Component {
 		let lists = null;
 		if(board.lists) {
 			lists = board.lists.map(list => 
-				<div className="list" key={list.id}>
-					{list.title}
-					<div
-					onClick={() => this.props.onDeleteList(list.id, this.props.token, board.id)}
-					className="right close-icon">
-						<i className="material-icons">close</i>
-					</div>
-				</div>
+				<List
+				key={list.id}
+				list={list}
+				token={this.props.token}
+				boardId={board.id}
+				handleAddListItem={this.handleAddListItem}
+				onDeleteList={this.props.onDeleteList}
+				onDeleteListItem={this.props.onDeleteListItem} />
 			);
 		}
 		return (
@@ -57,6 +62,12 @@ const mapDispatchToProps = dispatch => {
 		},
 		onDeleteList: (listId, token, boardId) => {
 			dispatch(actions.deleteList(listId, token, boardId));
+		},
+		onAddListItem: (pendingListItem, listId, token, boardId) => {
+			dispatch(actions.addListItem(pendingListItem, listId, token, boardId));
+		},
+		onDeleteListItem: (listItemId, listId, token, boardId) => {
+			dispatch(actions.deleteListItem(listItemId, listId, token, boardId));
 		}
 	};
 };
