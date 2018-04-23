@@ -106,11 +106,10 @@ export const deleteList = (listId, token, boardId) => {
 	};
 };
 
-export const deleteListSuccess = (listId, boardId) => {
+export const deleteListSuccess = listId => {
 	return {
 		type: "DELETE_LIST_SUCCESS",
-		listId: listId,
-		boardId: boardId
+		listId: listId
 	};
 };
 
@@ -123,10 +122,66 @@ export const deleteListFail = error => {
 
 /* ADD A LIST ITEM */
 //need board name/id and list name/id
+export const addListItem = (pendingListItem, listId, token, boardId	) => {
+	return dispatch => {
+		dispatch(loadingStart());
+		const itemParams = "/boards/" + boardId + "/lists/" + listId + "/text.json?auth=" + token;
+		axios.post("https://trello-clone-f42b4.firebaseio.com" + itemParams, pendingListItem)
+		.then(res => {
+			dispatch(addListItemSuccess(res.data.name, pendingListItem, listId, boardId));
+		})
+		.catch(err => {
+			dispatch(addListItemFail(err));
+		});
+	}
+}
+
+export const addListItemSuccess = (listItemId, newListItem, listId, boardId) => {
+	return {
+		type: "ADD_LIST_ITEM_SUCCESS",
+		listItemId: listItemId,
+		payload: newListItem,
+		listId: listId,
+		boardId: boardId
+	}
+}
+
+export const addListItemFail = error => {
+	return {
+		type: "ADD_LIST_ITEM_FAIL",
+		error: error
+	}
+}
 
 /* DELETE A LIST ITEM */
+export const deleteListItem = (listItemId, listId, token, boardId) => {
+	return dispatch => {
+		dispatch(loadingStart());
+		const deleteItemParams = boardId + "/lists/" + listId + "/text/" + listItemId + ".json?auth=" + token;
+		axios.delete("https://trello-clone-f42b4.firebaseio.com/boards/" + deleteItemParams)
+			.then(res => {
+				dispatch(deleteListItemSuccess(listItemId, listId, boardId));
+			})
+			.catch(err => {
+				console.log("Error with deleting: ", err);
+				dispatch(deleteListItemFail());
+			});
+	};
+};
 
-/* TOGGLE A LIST ITEM */
+export const deleteListItemSuccess = listItemId => {
+	return {
+		type: "DELETE_LIST_ITEM_SUCCESS",
+		listItemId: listItemId
+	};
+};
+
+export const deleteListItemFail = error => {
+	return {
+		type: "DELETE_LIST_ITEM_FAIL",
+		error: error
+	};
+};
 
 /* FETCH USERS BOARDS */
 export const fetchBoards = (token, userId) => {
@@ -140,10 +195,20 @@ export const fetchBoards = (token, userId) => {
 					let lists = [];
 					if(res.data[key].lists) {
 						lists = Object.keys(res.data[key].lists).map(listKey => {
+							let listItems = [];
+							if(res.data[key].lists[listKey].text) {
+								listItems = Object.keys(res.data[key].lists[listKey].text).map(itemKey => {
+									return {
+										...res.data[key].lists[listKey].text[itemKey],
+										id: itemKey
+									};
+								});
+							}
 							return {
 								...res.data[key].lists[listKey],
-								id: listKey
-							}
+								id: listKey,
+								text: listItems
+							};
 						});
 					}
 					fetchedBoards.push({
