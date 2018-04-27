@@ -5,7 +5,7 @@ export {
 	deleteList,
 	addListItem,
 	deleteListItem,
-	toggleListItem,
+	toggleItem,
 	fetchBoards
 } from "./appActions";
 
