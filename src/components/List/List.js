@@ -1,15 +1,17 @@
 import React from "react";
 
 const list = props => {
-	let listItems = [];
-	if(props.list.text) {
-		listItems = props.list.text.map(listItem =>
-			<li key={listItem.id}>
-				<p>
-					{listItem.text}
+	let listItems = null;
+	if(props.list.items) {
+		listItems = props.list.items.map(item =>
+			<li key={item.id}>
+				<p 
+				className={item.checked ? "checked" : ""}
+				onClick={() => props.onItemClick(item.id, props.list.id, props.boardId, item.checked, props.token)}>
+					{item.text}
 				</p>
 				<div
-				onClick={() => props.onDeleteListItem(listItem.id, props.list.id, props.token, props.boardId)}
+				onClick={() => props.onDeleteListItem(item.id, props.list.id, props.token, props.boardId)}
 				className="right close-icon">
 					<i className="material-icons">close</i>
 				</div>
