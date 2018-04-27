@@ -7,12 +7,15 @@ import List from "../List/List";
 class Board extends Component {
 	handleAddList = event => {
 		event.preventDefault();
-		const pendingList = { title: event.target.listTitle.value, text: [] };	
+		const pendingList = { title: event.target.listTitle.value, items: [] };	
 		this.props.onAddList(pendingList, this.props.token, this.props.match.params.b_id);
 	};
 	handleAddListItem = (event, listId) => {
 		event.preventDefault();
-		const pendingListItem = { text: event.target.text.value };
+		const pendingListItem = { 
+			text: event.target.text.value,
+			checked: false
+			};
 		this.props.onAddListItem(pendingListItem, listId, this.props.token, this.props.match.params.b_id);
 		event.target.reset();
 	};
@@ -29,7 +32,8 @@ class Board extends Component {
 				boardId={board.id}
 				handleAddListItem={this.handleAddListItem}
 				onDeleteList={this.props.onDeleteList}
-				onDeleteListItem={this.props.onDeleteListItem} />
+				onDeleteListItem={this.props.onDeleteListItem}
+				onItemClick={this.props.onItemClick} />
 			);
 		}
 		return (
@@ -68,6 +72,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		onDeleteListItem: (listItemId, listId, token, boardId) => {
 			dispatch(actions.deleteListItem(listItemId, listId, token, boardId));
+		},
+		onItemClick: (listItemId, listId, boardId, status, token) => {
+			dispatch(actions.toggleItem(listItemId, listId, boardId, status, token));
 		}
 	};
 };
