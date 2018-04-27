@@ -42,6 +42,10 @@ main {
 	
 }
 
+.checked {
+  text-decoration: line-through;
+}
+
 .right {
   float: right;
   margin-left: 40px;
