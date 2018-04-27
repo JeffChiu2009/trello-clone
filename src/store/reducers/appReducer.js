@@ -51,22 +51,15 @@ const reducer = (state = initialState, action) => {
 				if(board.id !== action.boardId) {
 					return board;
 				}
-				const addListArray = Object.keys(board.lists).map(key => {
-						return {
-							...board.lists[key],
-							id: key
-						};
-					}
-				);
 				const targetBoard = {
 					...board,
-					lists: addListArray.concat(newList)
+					lists: board.lists.concat(newList)
 				};
 				return { ...targetBoard };
 			});
 			return {
 				...state,
-				boards: [...newBoards],
+				boards: newBoards,
 				loading: false,
 				error: null
 			};
@@ -109,10 +102,10 @@ const reducer = (state = initialState, action) => {
 					}
 					const targetList = {
 						...list,
-						text: list.text.concat(newListItem)
+						items: list.items.concat(newListItem)
 					};
 					return targetList;
-				})
+				});
 				const targetBoardforListItem = {
 					...board,
 					lists: targetBoardLists
@@ -131,19 +124,19 @@ const reducer = (state = initialState, action) => {
 				error: action.error
 			};
 		case "DELETE_LIST_ITEM_SUCCESS":
-		const newBoardsForItemDelete = state.boards.map(board => {
-			const newBoardList = board.lists.map(list => {
-				return {
-					...list,
-					text: list.text.filter(text => text.id !== action.listItemId)
+			const newBoardsForItemDelete = state.boards.map(board => {
+				const newBoardList = board.lists.map(list => {
+					return {
+						...list,
+						items: list.items.filter(item => item.id !== action.listItemId)
+					};
+				});
+				const newBoardInItemDelete = {
+					...board,
+					lists: newBoardList 
 				};
+				return newBoardInItemDelete;
 			});
-			const newBoardInItemDelete = {
-				...board,
-				lists: newBoardList 
-			};
-			return newBoardInItemDelete;
-		});
 			return {
 				...state,
 				boards: newBoardsForItemDelete,
@@ -154,6 +147,40 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				error: action.error
+			};
+		case "TOGGLE_ITEM_SUCCESS":
+			const newBoardsForToggle = state.boards.map(board => {
+				const newListsForToggle = board.lists.map(list => {
+					const newItemsForToggle = list.items.map(item => {
+						if(item.id === action.listItemId) {
+							return {
+								...item,
+								checked: action.newStatus
+							};
+						}
+						return item;
+					});
+					return {
+						...list,
+						items: newItemsForToggle
+					};
+				});
+				return {
+					...board,
+					lists: newListsForToggle
+				};
+			});
+			return {
+				...state,
+				boards: newBoardsForToggle,
+				loading: false,
+				error: null
+			};
+		case "TOGGLE_ITEM_FAIL":
+			return {
+				...state,
+				error: action.error,
+				loading: false
 			};
 		case "FETCH_BOARDS_SUCCESS":
 			return {

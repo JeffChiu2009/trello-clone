@@ -125,7 +125,7 @@ export const deleteListFail = error => {
 export const addListItem = (pendingListItem, listId, token, boardId	) => {
 	return dispatch => {
 		dispatch(loadingStart());
-		const itemParams = "/boards/" + boardId + "/lists/" + listId + "/text.json?auth=" + token;
+		const itemParams = "/boards/" + boardId + "/lists/" + listId + "/items.json?auth=" + token;
 		axios.post("https://trello-clone-f42b4.firebaseio.com" + itemParams, pendingListItem)
 		.then(res => {
 			dispatch(addListItemSuccess(res.data.name, pendingListItem, listId, boardId));
@@ -133,8 +133,8 @@ export const addListItem = (pendingListItem, listId, token, boardId	) => {
 		.catch(err => {
 			dispatch(addListItemFail(err));
 		});
-	}
-}
+	};
+};
 
 export const addListItemSuccess = (listItemId, newListItem, listId, boardId) => {
 	return {
@@ -143,21 +143,21 @@ export const addListItemSuccess = (listItemId, newListItem, listId, boardId) => 
 		payload: newListItem,
 		listId: listId,
 		boardId: boardId
-	}
-}
+	};
+};
 
 export const addListItemFail = error => {
 	return {
 		type: "ADD_LIST_ITEM_FAIL",
 		error: error
-	}
-}
+	};
+};
 
 /* DELETE A LIST ITEM */
 export const deleteListItem = (listItemId, listId, token, boardId) => {
 	return dispatch => {
 		dispatch(loadingStart());
-		const deleteItemParams = boardId + "/lists/" + listId + "/text/" + listItemId + ".json?auth=" + token;
+		const deleteItemParams = boardId + "/lists/" + listId + "/items/" + listItemId + ".json?auth=" + token;
 		axios.delete("https://trello-clone-f42b4.firebaseio.com/boards/" + deleteItemParams)
 			.then(res => {
 				dispatch(deleteListItemSuccess(listItemId, listId, boardId));
@@ -183,6 +183,37 @@ export const deleteListItemFail = error => {
 	};
 };
 
+/* TOGGLE ITEM STATUS */
+export const toggleItem = (listItemId, listId, boardId, status, token) => {
+	return dispatch => {
+		dispatch(loadingStart());
+		const toggleParams = boardId + "/lists/" + listId + "/items/" + listItemId + "/checked.json?auth=" + token;
+		axios.put("https://trello-clone-f42b4.firebaseio.com/boards/" + toggleParams, !status)
+			.then(res => {
+				dispatch(toggleItemSuccess(listItemId, !status));
+			})
+			.catch(err => {
+				console.log("Error while toggling", err);
+				dispatch(toggleItemFail(err));
+			});
+	};
+};
+
+export const toggleItemSuccess = (listItemId, newStatus) => {
+	return {
+		type: "TOGGLE_ITEM_SUCCESS",
+		listItemId: listItemId,
+		newStatus: newStatus
+	};
+};
+
+export const toggleItemFail = error => {
+	return {
+		type: "TOGGLE_ITEM_SUCCESS",
+		error: error
+	};
+};
+
 /* FETCH USERS BOARDS */
 export const fetchBoards = (token, userId) => {
 	return dispatch => {
@@ -196,10 +227,10 @@ export const fetchBoards = (token, userId) => {
 					if(res.data[key].lists) {
 						lists = Object.keys(res.data[key].lists).map(listKey => {
 							let listItems = [];
-							if(res.data[key].lists[listKey].text) {
-								listItems = Object.keys(res.data[key].lists[listKey].text).map(itemKey => {
+							if(res.data[key].lists[listKey].items) {
+								listItems = Object.keys(res.data[key].lists[listKey].items).map(itemKey => {
 									return {
-										...res.data[key].lists[listKey].text[itemKey],
+										...res.data[key].lists[listKey].items[itemKey],
 										id: itemKey
 									};
 								});
@@ -207,7 +238,7 @@ export const fetchBoards = (token, userId) => {
 							return {
 								...res.data[key].lists[listKey],
 								id: listKey,
-								text: listItems
+								items: listItems
 							};
 						});
 					}
@@ -223,22 +254,22 @@ export const fetchBoards = (token, userId) => {
 				console.log("[ERROR AT FETCH]", err)
 				dispatch(fetchBoardsFail(err));
 			});
-	}
-}
+	};
+};
 
 export const fetchBoardsSuccess = userBoards => {
 	return {
 		type: "FETCH_BOARDS_SUCCESS",
 		boards: userBoards
-	}
-}
+	};
+};
 
 export const fetchBoardsFail = error => {
 	return {
 		type: "FETCH_BOARDS_FAIL",
 		error: error
-	}
-}
+	};
+};
 
 /* LOADING */
 export const loadingStart = () => {
