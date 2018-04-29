@@ -105,6 +105,9 @@ input {
 .boards-container {
   margin-top: 75px;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
   align-items: center;
 }
 
