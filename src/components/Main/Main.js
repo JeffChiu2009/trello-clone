@@ -23,25 +23,24 @@ class Main extends Component {
 		if(this.props.boards) {
 			boards = this.props.boards.map(board => 
 				<div
-				className="board"
+				className="board-panel board"
 				key={board.id}>
-					<Link to={"/board/" + board.id}>
-						<h2>{board.title}</h2>
-					</Link>
 					<div
-					onClick={() => this.props.onBoardDelete(board.id, this.props.token)}
-					className="right close-icon">
-						<i className="material-icons">close</i>
+					onClick={() => this.props.onBoardDelete(board.id, this.props.token)}>
+						<i className="material-icons right">close</i>
 					</div>
+					<Link to={"/board/" + board.id}>
+						<h2 className="center catchy-title">{board.title}</h2>
+					</Link>
 				</div>
 			);
 		}
 		return (
 			<div className="boards-container">
-				<form className="board-create" onSubmit={this.handleCreateBoard}>
-					<label htmlFor="title">Enter a title for your board</label>
+				<form className="board-panel center" onSubmit={this.handleCreateBoard}>
+					<label htmlFor="title">Enter a title for your new board</label>
 					<input type="text" name="title" />
-					<button type="submit">Create</button>
+					<button type="submit" className="btn">Create</button>
 				</form>
 				{boards}
 			</div>
