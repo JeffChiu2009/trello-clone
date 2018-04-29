@@ -19,7 +19,7 @@ const list = props => {
 		);
 	}
 	return (
-		<div className="list">
+		<div className="card-panel list">
 			<div
 			onClick={() => props.onDeleteList(props.list.id, props.token, props.boardId)}
 			className="right close-icon">
