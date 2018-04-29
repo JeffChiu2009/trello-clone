@@ -15,6 +15,75 @@ main {
   align-items: center;
 }
 
+header {
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  background-color: #424242;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 90;
+}
+
+nav {
+  height: 100%;
+}
+
+nav ul li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  transition: 1s;
+}
+
+a:active, a:hover {
+  color: gold;
+}
+
+#logo {
+  font-size: 2rem;
+}
+
+.card-panel {
+  margin: 10px;
+  padding: 24px;
+  border: 1px solid black;
+  box-shadow: 3px 3px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.caption {
+  text-align: center;
+  font-size: 1rem;
+  color: #424242;
+}
+
+.btn {
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.invalid {
+  border: 2px red solid;
+}
+
+.boards-container {
+  margin-top: 75px;
+}
+
 .board-create {
   max-width: 200px;
   padding: 24px;
@@ -46,9 +115,18 @@ main {
   text-decoration: line-through;
 }
 
+.redirect {
+  font-size: 2rem;
+  color: darkred;
+}
+
+.center {
+  text-align: center;
+}
+
 .right {
   float: right;
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 /* 3rd party loading spinner animation */
