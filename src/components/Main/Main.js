@@ -37,14 +37,14 @@ class Main extends Component {
 			);
 		}
 		return (
-			<main className="boards-container">
+			<div className="boards-container">
 				<form className="board-create" onSubmit={this.handleCreateBoard}>
 					<label htmlFor="title">Enter a title for your board</label>
 					<input type="text" name="title" />
 					<button type="submit">Create</button>
 				</form>
 				{boards}
-			</main>
+			</div>
 		);
 	}
 }
