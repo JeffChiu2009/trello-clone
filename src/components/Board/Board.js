@@ -15,7 +15,7 @@ class Board extends Component {
 		const pendingListItem = { 
 			text: event.target.text.value,
 			checked: false
-			};
+		};
 		this.props.onAddListItem(pendingListItem, listId, this.props.token, this.props.match.params.b_id);
 		event.target.reset();
 	};
@@ -37,15 +37,17 @@ class Board extends Component {
 			);
 		}
 		return (
-			<main>
-				<h2>{board.title}</h2>
-				<form className="board" onSubmit={this.handleAddList}>
-					<label htmlFor="listTitle">Create a List</label>
-					<input type="text" name="listTitle" />
-					<button type="submit">Create</button>
-				</form>
+			<div className="boards-container">
+				<div className="card-panel">
+					<h2>{board.title}</h2>
+					<form className="board" onSubmit={this.handleAddList}>
+						<label htmlFor="listTitle">Create a List</label>
+						<input type="text" name="listTitle" />
+						<button type="submit">Create</button>
+					</form>
+				</div>
 				{lists}
-			</main>
+			</div>
 		);
 	}
 }
