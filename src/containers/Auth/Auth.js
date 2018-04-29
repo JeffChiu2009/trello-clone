@@ -68,12 +68,20 @@ class Auth extends Component {
 	}
 
 	render() {
+		let emailValid = true;
+		if(this.state.formData.email.touched && !this.state.formData.email.valid) {
+			emailValid = false;
+		}
+		let passwordValid = true;
+		if(this.state.formData.password.touched && !this.state.formData.password.valid) {
+			passwordValid = false;
+		}
 		let form = (
 			<div>
 				<div className="center">
 					<input 
 						type="email" 
-						className={"validate " + this.state.formData.email.valid ? "" : "invalid"}
+						className={emailValid ? "" : "invalid"}
 						id="email" 
 						name="email" 
 						placeholder="Your email"
@@ -83,7 +91,7 @@ class Auth extends Component {
 				<div className="center">
 					<input 
 						type="password" 
-						className={"validate " + this.state.formData.password.valid ? "" : "invalid"}
+						className={passwordValid ? "" : "invalid"}
 						id="password" 
 						name="password" 
 						placeholder="Minimum 6 character password" 
@@ -97,42 +105,52 @@ class Auth extends Component {
 		}
 		let header = <h3 className="center">Sign Up to Use Trello Clone</h3>;
 		let authCaption = (
-			<div className="caption">
+			<div className="center">
 				<p>Already have an account?</p>
 				<button className="btn" onClick={this.handleSwitchAuthMode}>
-					LOG IN
+					-- LOG IN --
 				</button>
 			</div>
 		);
+		let buttonText = "SIGN ME UP"
 		if(!this.state.isSignup) {
 			header = <h3 className="center">Log In to Trello Clone</h3>;
 			authCaption = (
-				<div className="caption">
+				<div className="center">
 					<p>New to Trello Clone?</p>
 					<button className="btn" onClick={this.handleSwitchAuthMode}>
-						SIGN UP
+						-- SIGN UP --
 					</button>
 				</div>
 			);
+			buttonText = "LOG ME IN"
 		}
 		return (
 			<div className="boards-container">
 				<div className="card-panel">
-					{header}
-					<hr/>
-					<p className="caption center">Any email, real or fake, will work</p>
-					{authCaption}
-					<p className="caption center">Our state of the art database will store your boards and lists!</p>
+					<p className="center">
+						Trello Clone let's you keep track of things in an organized way!
+					</p>
+					<p className="caption center">
+						Our state of the art database will store your boards and lists!
+					</p>
 					<div className="card-panel">
+						{header}
+						<hr/>
+						{authCaption}
+						<p className="caption center">Any email, real or fake, will work</p>
+						<p className="caption center">
+							<strong>Or log in using test@test.com and test12</strong>
+						</p>
 						<form onSubmit={this.handleSubmit}>
 							{form}
 							<div className="center">
 								<button 
 									id="submitBtn" 
 									className="btn">
-										SUBMIT <i className="material-icons right">send</i>
+										{buttonText} <i className="material-icons right">send</i>
 								</button>
-								{this.props.error ? <p>{this.props.error}</p> : null}
+								{this.props.error ? <p className="auth-error">{this.props.error}</p> : null}
 							</div>
 						</form>
 					</div>
