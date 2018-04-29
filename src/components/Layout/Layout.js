@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/";
 
@@ -24,7 +24,7 @@ class Layout extends Component {
 		return (
 			<Aux>
 				<header>
-					<div>
+					<div id="logo">
 						Trello Clone
 					</div>
 					<nav>
@@ -53,4 +53,4 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));
