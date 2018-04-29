@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/";
 
@@ -9,6 +10,7 @@ class Board extends Component {
 		event.preventDefault();
 		const pendingList = { title: event.target.listTitle.value, items: [] };	
 		this.props.onAddList(pendingList, this.props.token, this.props.match.params.b_id);
+		event.target.reset();
 	};
 	handleAddListItem = (event, listId) => {
 		event.preventDefault();
@@ -21,6 +23,9 @@ class Board extends Component {
 	};
 
 	render() {
+		if(!this.props.boards) {
+			return <Redirect to="/" />
+		}
 		const board = this.props.boards.find(board => board.id === this.props.match.params.b_id);
 		let lists = null;
 		if(board.lists) {
@@ -38,12 +43,12 @@ class Board extends Component {
 		}
 		return (
 			<div className="boards-container">
-				<div className="card-panel">
+				<div className="board-panel center">
 					<h2>{board.title}</h2>
-					<form className="board" onSubmit={this.handleAddList}>
-						<label htmlFor="listTitle">Create a List</label>
+					<form onSubmit={this.handleAddList}>
+						<label htmlFor="listTitle">Create a new list</label>
 						<input type="text" name="listTitle" />
-						<button type="submit">Create</button>
+						<button type="submit" className="btn">Create</button>
 					</form>
 				</div>
 				{lists}
