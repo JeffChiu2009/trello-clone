@@ -69,21 +69,21 @@ class Auth extends Component {
 
 	render() {
 		let form = (
-			<div className="row">
-				<div className="input-field col s6">
+			<div>
+				<div className="center">
 					<input 
 						type="email" 
-						className="validate" 
+						className={"validate " + this.state.formData.email.valid ? "" : "invalid"}
 						id="email" 
 						name="email" 
-						placeholder="Your email" 
+						placeholder="Your email"
 						value={this.state.formData.email.value}
 						onChange={(event) => this.handleOnChange(event, "email")} />
 				</div>
-				<div className="input-field col s6">
+				<div className="center">
 					<input 
 						type="password" 
-						className="validate" 
+						className={"validate " + this.state.formData.password.valid ? "" : "invalid"}
 						id="password" 
 						name="password" 
 						placeholder="Minimum 6 character password" 
@@ -95,31 +95,42 @@ class Auth extends Component {
 		if(this.props.loading) {
 			form = <Spinner />;
 		}
-		let header = <h4 className="center">Sign Up and Join <span>Nihon ALT</span></h4>;
+		let header = <h3 className="center">Sign Up to Use Trello Clone</h3>;
+		let authCaption = (
+			<div className="caption">
+				<p>Already have an account?</p>
+				<button className="btn" onClick={this.handleSwitchAuthMode}>
+					LOG IN
+				</button>
+			</div>
+		);
 		if(!this.state.isSignup) {
-			header = <h4 className="center">Sign In to <span>Nihon ALT</span></h4>;
+			header = <h3 className="center">Log In to Trello Clone</h3>;
+			authCaption = (
+				<div className="caption">
+					<p>New to Trello Clone?</p>
+					<button className="btn" onClick={this.handleSwitchAuthMode}>
+						SIGN UP
+					</button>
+				</div>
+			);
 		}
 		return (
-			<div className="col m12 l4">
+			<div className="boards-container">
 				<div className="card-panel">
 					{header}
-					<div className="switch center">
-				    <label>
-				      Sign up
-				      <input type="checkbox" onClick={this.handleSwitchAuthMode} />
-				      <span className="lever"></span>
-				      Sign in
-				    </label>
-				  </div>
-					<p className="caption center">People helping people. It's powerful stuff. Help contribute to NihonALT.</p>
-					<div className="row">
-						<form className="col s12" onSubmit={this.handleSubmit}>
+					<hr/>
+					<p className="caption center">Any email, real or fake, will work</p>
+					{authCaption}
+					<p className="caption center">Our state of the art database will store your boards and lists!</p>
+					<div className="card-panel">
+						<form onSubmit={this.handleSubmit}>
 							{form}
 							<div className="center">
 								<button 
 									id="submitBtn" 
 									className="btn">
-										Submit <i className="material-icons right">send</i>
+										SUBMIT <i className="material-icons right">send</i>
 								</button>
 								{this.props.error ? <p>{this.props.error}</p> : null}
 							</div>
