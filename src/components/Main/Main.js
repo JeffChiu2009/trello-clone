@@ -20,7 +20,7 @@ class Main extends Component {
 		this.props.onBoardAdd(newBoard, this.props.token);
 		event.target.reset();
 	};
-	
+
 	render() {
 		let boards = null;
 		if(this.props.boards) {
@@ -42,7 +42,6 @@ class Main extends Component {
 			<div>
 				<Sidebar boards={boards} onCreateBoard={this.handleCreateBoard} />
         <Route path="/boards/:b_id" component={Board} />
-				{/*boards*/}
 			</div>
 		);
 	}
