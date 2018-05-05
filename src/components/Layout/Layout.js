@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/";
 
 import Aux from "../../hoc/Aux";
+import * as actions from "../../store/actions/";
 
 class Layout extends Component {
 	render() {
 		let navbar = (
 			<li>
-				<Link	to="/">Please log in</Link>
+				<Link	to="/auth">
+					<button className="btn">
+						Login
+					</button>
+				</Link>
 			</li>
 		);
 		if(this.props.isAuth) {
@@ -17,16 +21,20 @@ class Layout extends Component {
 				<li>
 					<Link 
 					onClick={() => this.props.onLogout()}
-					to="/">Log Out</Link>
+					to="/">
+						<button className="btn">
+							Log Out
+						</button>
+					</Link>
 				</li>
 			)
 		}
 		return (
 			<Aux>
 				<header>
-					<div id="logo">
+					<Link id="logo" to="/">
 						Trello Clone
-					</div>
+					</Link>
 					<nav>
 						<ul>
 							{navbar}
