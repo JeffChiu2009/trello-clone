@@ -9,7 +9,7 @@ import Auth from "./containers/Auth/Auth";
 import Main from "./components/Main/Main";
 import Board from "./components/Board/Board";
 import NotFound from "./components/NotFound/NotFound";
-import Spinner from "./components/Spinner/Spinner";
+import Spinner from "./components/UI/Spinner/Spinner";
 
 class App extends Component {
   componentDidMount() {
@@ -29,7 +29,6 @@ class App extends Component {
             <Route exact path="/" render={() => <Home isAuth={this.props.isAuth}/>} />
             <Route path="/auth" component={Auth} />
             <Route path="/boards" component={Main} />
-            {/*<Route path="/board/:b_id" component={Board} />*/}
             <Route render={() => <NotFound isAuth={this.props.isAuth}/>} />
           </Switch>
         </Layout>
@@ -51,4 +50,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-//render={() => mainView} 
