@@ -1,24 +1,27 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Route, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
+import Sidebar from "../Sidebar/Sidebar";
+import Board from "../Board/Board";
 import * as actions from "../../store/actions/";
 
 class Main extends Component {
 	componentDidMount() {
 		this.props.onBoardsFetch(this.props.token, this.props.userId);		
-	}
-	handleCreateBoard = (event) => {
+	}	
+
+	handleCreateBoard = event => {
 		event.preventDefault();
 		const newBoard = {
 			userId: this.props.userId,
-			title: event.target.title.value,
+			title: event.target.boardTitle.value,
 			lists: []
 		};
 		this.props.onBoardAdd(newBoard, this.props.token);
+		event.target.reset();
 	};
+	
 	render() {
-		// display boards from props, make boards-container a flex parent, wrap downward
-		// each board will be a link to the /boards/:b_id route where lists and list items can be made
 		let boards = null;
 		if(this.props.boards) {
 			boards = this.props.boards.map(board => 
@@ -29,20 +32,17 @@ class Main extends Component {
 					onClick={() => this.props.onBoardDelete(board.id, this.props.token)}>
 						<i className="material-icons right">close</i>
 					</div>
-					<Link to={"/board/" + board.id}>
+					<NavLink to={"/boards/" + board.id}>
 						<h2 className="center catchy-title">{board.title}</h2>
-					</Link>
+					</NavLink>
 				</div>
 			);
 		}
 		return (
-			<div className="boards-container">
-				<form className="board-panel center" onSubmit={this.handleCreateBoard}>
-					<label htmlFor="title">Enter a title for your new board</label>
-					<input type="text" name="title" />
-					<button type="submit" className="btn">Create</button>
-				</form>
-				{boards}
+			<div>
+				<Sidebar boards={boards} onCreateBoard={this.handleCreateBoard} />
+        <Route path="/boards/:b_id" component={Board} />
+				{/*boards*/}
 			</div>
 		);
 	}
