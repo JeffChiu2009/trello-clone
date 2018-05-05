@@ -8,7 +8,6 @@ import Home from "./components/Home/Home";
 import Auth from "./containers/Auth/Auth";
 import Main from "./components/Main/Main";
 import NotFound from "./components/NotFound/NotFound";
-import Spinner from "./components/UI/Spinner/Spinner";
 
 class App extends Component {
   componentDidMount() {
