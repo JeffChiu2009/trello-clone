@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import * as actions from "./store/actions/";
 
 import Layout from "./components/Layout/Layout";
+import Home from "./components/Home/Home";
 import Auth from "./containers/Auth/Auth";
 import Main from "./components/Main/Main";
 import Board from "./components/Board/Board";
@@ -25,9 +26,11 @@ class App extends Component {
       <Router>
         <Layout>
           <Switch>
-            <Route exact path="/" render={() => mainView} />
-            <Route path="/board/:b_id" component={Board} />
-            <Route component={NotFound} />
+            <Route exact path="/" render={() => <Home isAuth={this.props.isAuth}/>} />
+            <Route path="/auth" component={Auth} />
+            <Route path="/boards" component={Main} />
+            {/*<Route path="/board/:b_id" component={Board} />*/}
+            <Route render={() => <NotFound isAuth={this.props.isAuth}/>} />
           </Switch>
         </Layout>
       </Router>
@@ -48,3 +51,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+//render={() => mainView} 
