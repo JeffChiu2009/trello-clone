@@ -26,7 +26,10 @@ const sidebar = props => {
 				<h3 className="sidebar-header">Your boards</h3>
 				<hr/>
 				{props.boards}
-				{connectedBoards}
+				<div className="centered">
+					{connectedBoards}
+				</div>
+				
 			</Aux>
 		);
 	}
