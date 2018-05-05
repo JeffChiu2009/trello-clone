@@ -7,7 +7,6 @@ import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
 import Auth from "./containers/Auth/Auth";
 import Main from "./components/Main/Main";
-import Board from "./components/Board/Board";
 import NotFound from "./components/NotFound/NotFound";
 import Spinner from "./components/UI/Spinner/Spinner";
 
@@ -16,12 +15,6 @@ class App extends Component {
     this.props.onAuthCheckState();
   }
   render() {
-    let mainView = <Spinner />;
-    if(!this.props.isAuth) {
-      mainView = <Auth />;
-    } else {
-      mainView = <Main />;
-    }
     return (
       <Router>
         <Layout>
