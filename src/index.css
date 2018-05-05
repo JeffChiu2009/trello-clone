@@ -19,7 +19,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 20px 0 80px;
   box-sizing: border-box;
   z-index: 90;
 }
@@ -163,21 +163,30 @@ li a .btn {
   align-items: flex-start;
 }
 
+.boards-container .board-panel {
+  margin: 15px 30px 15px 30px;
+}
+
 .board-panel {
   max-width: 350px;
-  margin: 10px;
+  margin: auto;
+  margin-bottom: 10px;
   padding: 12px;
-  background-color: #000080;
-  color: #fff;
-  border: 2.5px solid rgba(0, 0, 128, 0.8);
+  background-color: #e0e0e0;
+  color: #000;
+  border: 2.5px solid rgba(224, 224, 224, 0.8);
   border-radius: 10px;
   box-shadow: 0 3px 3px rgba(0,0,0,0.16), 0 3px 3px rgba(0,0,0,0.23);
 }
+.board-panel h2 {
+  margin: 5px;
+}
 
 .board {
-	background-color: #D3D3D3;
-  border: 2.5px solid rgba(211, 211, 211, 08);
   text-align: center;
+}
+.board a {
+  text-decoration: none;
 }
 
 .catchy-title {
@@ -187,11 +196,11 @@ li a .btn {
 
 .list {
 	max-width: 350px;
-  margin: 10px;
+  margin: 15px 30px 15px 30px;
   padding: 12px;
-  background-color: #D3D3D3;
-  color: #fff;
-  border: 2.5px solid rgba(211, 211, 211, 08);
+  background-color: #e0e0e0;
+  color: #000;
+  border: 2.5px solid rgba(224, 224, 224, 0.8);
   border-radius: 10px;
   box-shadow: 0 3px 3px rgba(0,0,0,0.16), 0 3px 3px rgba(0,0,0,0.23);
 }
@@ -310,5 +319,23 @@ li a .btn {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .boards-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .boards-container {
+    margin: 10px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
   }
 }
