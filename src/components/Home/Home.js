@@ -37,7 +37,7 @@ const home = props => {
 			<div id="disclaimer">
 				<div className="container">
 					<div className="greeting center">
-						<h1>Trello Clone is a challenge project made by <a className="mine" href="www.terencemangram.com">Terence Mangram.</a></h1>
+						<h1>Trello Clone is a challenge project made by <a className="mine" href="http://www.terencemangram.com">Terence Mangram.</a></h1>
 						<p>This app is inspired by but not related to Trello in any way.</p>
 					</div>
 				</div>
