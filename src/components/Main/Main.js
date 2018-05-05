@@ -3,6 +3,7 @@ import { Route, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import Sidebar from "../Sidebar/Sidebar";
 import Board from "../Board/Board";
+import Aux from "../../hoc/Aux";
 import * as actions from "../../store/actions/";
 
 class Main extends Component {
@@ -39,10 +40,10 @@ class Main extends Component {
 			);
 		}
 		return (
-			<div>
+			<Aux>
 				<Sidebar boards={boards} onCreateBoard={this.handleCreateBoard} />
         <Route path="/boards/:b_id" component={Board} />
-			</div>
+			</Aux>
 		);
 	}
 }
