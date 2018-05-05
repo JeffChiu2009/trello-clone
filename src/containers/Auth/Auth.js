@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../../components/Spinner/Spinner";
 import * as actions from "../../store/actions/";
@@ -68,6 +69,9 @@ class Auth extends Component {
 	}
 
 	render() {
+		if(this.props.isAuth) {
+			return <Redirect to="/boards" />;
+		}
 		let emailValid = true;
 		if(this.state.formData.email.touched && !this.state.formData.email.valid) {
 			emailValid = false;
@@ -82,7 +86,6 @@ class Auth extends Component {
 					<input 
 						type="email" 
 						className={emailValid ? "" : "invalid"}
-						id="email" 
 						name="email" 
 						placeholder="Your email"
 						value={this.state.formData.email.value}
@@ -90,70 +93,47 @@ class Auth extends Component {
 				</div>
 				<div className="center">
 					<input 
-						type="password" 
-						className={passwordValid ? "" : "invalid"}
-						id="password" 
-						name="password" 
-						placeholder="Minimum 6 character password" 
-						value={this.state.formData.password.value}
-						onChange={(event) => this.handleOnChange(event, "password")} />
+					type="password" 
+					className={passwordValid ? "" : "invalid"}
+					name="password" 
+					placeholder="Minimum 6 character password" 
+					value={this.state.formData.password.value}
+					onChange={(event) => this.handleOnChange(event, "password")} />
 				</div>
 			</div>
 		);
 		if(this.props.loading) {
 			form = <Spinner />;
 		}
-		let header = <h3 className="center">Sign Up to Use Trello Clone</h3>;
-		let authCaption = (
-			<div className="center">
-				<p>Already have an account?</p>
-				<button className="btn" onClick={this.handleSwitchAuthMode}>
-					-- LOG IN --
-				</button>
-			</div>
-		);
+		let header = <h1 className="center">Create a Trello Clone Account</h1>;
+		let authCaption = <a onClick={this.handleSwitchAuthMode}>Already have an account?</a>;
 		let buttonText = "SIGN ME UP"
 		if(!this.state.isSignup) {
-			header = <h3 className="center">Log In to Trello Clone</h3>;
-			authCaption = (
-				<div className="center">
-					<p>New to Trello Clone?</p>
-					<button className="btn" onClick={this.handleSwitchAuthMode}>
-						-- SIGN UP --
-					</button>
-				</div>
-			);
-			buttonText = "LOG ME IN"
+			header = <h1 className="center">Log In to Trello Clone</h1>;
+			authCaption = <a onClick={this.handleSwitchAuthMode}>New to Trello Clone?</a>;
+			buttonText = "LOG ME IN";
 		}
 		return (
-			<div className="boards-container">
+			<div id="auth" className="container">
 				<div className="card-panel">
-					<p className="center">
-						Trello Clone let's you keep track of things in an organized way!
-					</p>
+					{header}
+					<hr/>
+					{authCaption}
+					<p className="caption center">Any email, real or fake, will work</p>
 					<p className="caption center">
-						Our state of the art database will store your boards and lists!
+						<strong>Or log in using test@test.com and test12</strong>
 					</p>
-					<div className="card-panel">
-						{header}
-						<hr/>
-						{authCaption}
-						<p className="caption center">Any email, real or fake, will work</p>
-						<p className="caption center">
-							<strong>Or log in using test@test.com and test12</strong>
-						</p>
-						<form onSubmit={this.handleSubmit}>
-							{form}
-							<div className="center">
-								<button 
-									id="submitBtn" 
-									className="btn">
-										{buttonText} <i className="material-icons right">send</i>
-								</button>
-								{this.props.error ? <p className="auth-error">{this.props.error}</p> : null}
-							</div>
-						</form>
-					</div>
+					<form onSubmit={this.handleSubmit}>
+						{form}
+						<div className="center">
+							<button 
+								id="submitBtn" 
+								className="btn">
+									{buttonText} <i className="material-icons right">send</i>
+							</button>
+							{this.props.error ? <p className="auth-error">{this.props.error}</p> : null}
+						</div>
+					</form>
 				</div>
 			</div>
 		);
