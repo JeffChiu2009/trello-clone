@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import Spinner from "../../components/Spinner/Spinner";
+import Spinner from "../../components/UI/Spinner/Spinner";
 import * as actions from "../../store/actions/";
 
 class Auth extends Component {
