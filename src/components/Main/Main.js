@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Route, NavLink } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import Sidebar from "../Sidebar/Sidebar";
+import BoardView from "../BoardView/BoardView";
 import Board from "../Board/Board";
 import Aux from "../../hoc/Aux";
 import * as actions from "../../store/actions/";
@@ -13,36 +14,40 @@ class Main extends Component {
 
 	handleCreateBoard = event => {
 		event.preventDefault();
+		if(event.target.boardTitle.value === "") {
+			return this.displayToast();
+		}
 		const newBoard = {
 			userId: this.props.userId,
 			title: event.target.boardTitle.value,
+			date: new Date().toLocaleString("en-US"),
 			lists: []
 		};
 		this.props.onBoardAdd(newBoard, this.props.token);
 		event.target.reset();
 	};
 
+	displayToast = () => {
+		const toast = document.getElementById("toast");
+		toast.classList.add("show");
+		setTimeout(() => {toast.classList.remove("show")}, 2000);
+	};
+
 	render() {
 		let boards = null;
 		if(this.props.boards) {
-			boards = this.props.boards.map(board => 
-				<div
-				className="board-panel board"
-				key={board.id}>
-					<div
-					onClick={() => this.props.onBoardDelete(board.id, this.props.token)}>
-						<i className="material-icons right">close</i>
-					</div>
-					<NavLink to={"/boards/" + board.id}>
-						<h2 className="center catchy-title">{board.title}</h2>
-					</NavLink>
-				</div>
+			boards = this.props.boards.map(board =>
+				<Board 
+				key={board.id} 
+				board={board} 
+				handleDelete={() => this.props.onBoardDelete(board.id, this.props.token)} />
 			);
 		}
 		return (
 			<Aux>
 				<Sidebar boards={boards} onCreateBoard={this.handleCreateBoard} />
-        <Route path="/boards/:b_id" component={Board} />
+        <Route path="/boards/:b_id" component={BoardView} />
+        <div id="toast">Enter a value to create!</div>
 			</Aux>
 		);
 	}
