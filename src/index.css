@@ -124,7 +124,6 @@ input {
 }
 
 .caption {
-  text-align: center;
   font-size: 1rem;
   color: #424242;
 }
@@ -143,7 +142,13 @@ li a .btn {
   font-size: 1.2rem;
   font-weight: 600;
   line-height: 1.3;
+  border: 2.5px solid rgba(125, 20, 109, 0.8);
+  box-shadow: 0 3px 3px rgba(0,0,0,0.16), 0 3px 3px rgba(0,0,0,0.23);
   border-radius: 5px;
+}
+
+.btn:active {
+  box-shadow: none;
 }
 
 .invalid {
@@ -188,6 +193,9 @@ li a .btn {
 .board a {
   text-decoration: none;
 }
+.activeBoard h2 {
+  color: #7d146d;
+}
 
 .catchy-title {
   color: #000;
@@ -207,6 +215,9 @@ li a .btn {
 .list ul {
   list-style: none;
   padding: 5px;
+}
+.list h2 {
+  margin: 5px;
 }
 
 .list-item {
@@ -236,7 +247,58 @@ li a .btn {
 
 .right {
   float: right;
+}
+.right.send {
   margin-left: 10px;
+}
+.right.close {
+  margin-top: 12px;
+}
+
+/* Toast */
+#toast {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#toast.show {
+    visibility: visible; /* Show the snackbar */
+
+/* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: toast-fadein 0.5s, toast-fadeout 0.5s 2.5s;
+    animation: toast-fadein 0.5s, toast-fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes toast-fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes toast-fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes toast-fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes toast-fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
 }
 
 /* 3rd party loading spinner animation */
