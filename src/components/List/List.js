@@ -2,6 +2,7 @@ import React from "react";
 
 import Item from "./Item/Item";
 import Form from "../UI/Form/Form";
+import DeleteIcon from "../UI/DeleteIcon/DeleteIcon";
 
 const list = props => {
 	const checked = "list-item checked";
@@ -12,9 +13,10 @@ const list = props => {
 			<Item 
 			key={item.id}
 			text={item.text}
+			date={item.date ? item.date : ""}
 			className={item.checked ? checked : unchecked}
 			onClickEvent={() => props.onItemClick(item.id, props.list.id, props.boardId, item.checked, props.token)}
-			onDeleteClickEvent={() => props.onDeleteListItem(item.id, props.list.id, props.token, props.boardId)}/>
+			handleDelete={() => props.onDeleteListItem(item.id, props.list.id, props.token, props.boardId)}/>
 		);
 	}
 	const inputInfo = {
@@ -28,11 +30,10 @@ const list = props => {
 	}
 	return (
 		<div className="list">
-			<div
-			onClick={() => props.onDeleteList(props.list.id, props.token, props.boardId)}>
-				<i className="material-icons right">close</i>
-			</div>
-			<h3 className="catchy-title center">{props.list.title}</h3>
+			<DeleteIcon 
+			handleDelete={() => props.onDeleteList(props.list.id, props.token, props.boardId)} />
+			<h2 className="catchy-title center">{props.list.title}</h2>
+			<p className="caption center">Created on {props.list.date ? props.list.date : ""}</p>
 			<ul>
 				{listItems}
 				<li className="center">

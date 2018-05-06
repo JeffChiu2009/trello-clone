@@ -1,19 +1,18 @@
 import React from "react";
+import DeleteIcon from "../../UI/DeleteIcon/DeleteIcon";
 
 const item = props => {
 	const handleOnDeleteClick = event => {
 		event.stopPropagation();
-		props.onDeleteClickEvent();
+		props.handleDelete();
 	};
 	return (
 		<li
 		className={props.className}
 		onClick={props.onClickEvent}>
-			<div
-			onClick={handleOnDeleteClick}>
-				<i className="material-icons right">close</i>
-			</div>
+			<DeleteIcon handleDelete={handleOnDeleteClick} />
 			<p>{props.text}</p>
+			<p className="caption">{props.date ? props.date : ""}</p>
 		</li>
 	);
 };
